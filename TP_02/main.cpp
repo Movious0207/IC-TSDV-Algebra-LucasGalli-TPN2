@@ -47,10 +47,6 @@ int main(void)
 
 	Vector3 c = {};
 
-	c = GetCrossProduct(a, b);
-
-	c = GetNormalized(c) * ((1 / userInputCSize) * GetMagnitude(a));
-
 	std::vector<Pyramid> pyramids;
 
 	std::cout << "Ingrese cuanto quiere que sea N: ";
@@ -59,6 +55,10 @@ int main(void)
 
 	std::cout << "Ingrese cuantas piramides quiere: ";
 	std::cin >> userInputPyrAmount;
+
+	c = GetCrossProduct(a, b);
+
+	c = GetNormalized(c) * ((1 / userInputCSize) * GetMagnitude(a));
 
 	pyramids = CreatePyramid(origin, a, b, c, userInputPyrAmount);
 
