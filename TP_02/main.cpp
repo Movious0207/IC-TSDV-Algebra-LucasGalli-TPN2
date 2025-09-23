@@ -19,7 +19,7 @@ int main(void)
 	Camera3D camera = { 0 };
 
 	const float cameraDistance = 20.0f;
-	const float rotationAngle = 0.05f;
+	const float rotationAngle = 3.0f;
 
 	camera.position = { cameraDistance, cameraDistance, cameraDistance };  // Camera position
 	camera.target = origin;      // Camera looking at point
@@ -49,22 +49,48 @@ int main(void)
 
 	std::vector<Pyramid> pyramids;
 
+	bool validAnswer = false;
+		
+	validAnswer = false;
 	std::cout << "Ingrese cuanto quiere que sea N: ";
-	std::cin >> userInputCSize;
+	while (!validAnswer) {
+		std::cin >> userInputCSize;
+			validAnswer = true;
+		if (std::cin.fail()) {
+			std::cin.clear();
+			std::cin.ignore(INT_MAX,'\n');
+			validAnswer = false;
+		}
+		if (userInputCSize <= 0) {
+			validAnswer = false;
+		}
+	}
 	std::cout << std::endl;
 
+	validAnswer = false;
 	std::cout << "Ingrese cuantas piramides quiere: ";
-	std::cin >> userInputPyrAmount;
+	while (!validAnswer) {
+		std::cin >> userInputPyrAmount;
+		validAnswer = true;
+		if (std::cin.fail()) {
+			std::cin.clear();
+			std::cin.ignore(INT_MAX, '\n');
+			validAnswer = false;
+		}
+		if (userInputPyrAmount <= 0) {
+			validAnswer = false;
+		}
+	}
+
+	userInputCSize += 5.0f;
 
 	c = GetCrossProduct(a, b);
 
-	c = GetNormalized(c) * ((1 / userInputCSize) * GetMagnitude(a));
+	c = GetNormalized(c) * ((1.0f / userInputCSize) * GetMagnitude(a));
 
 	pyramids = CreatePyramid(origin, a, b, c, userInputPyrAmount);
 
-	InitWindow(screenWidth, screenHeight, "TP02");
-
-	SetTargetFPS(60);
+	float deltaTime = 0;
 
 	for (int floor = 0; floor < pyramids[0].floors.size(); floor++)
 	{
@@ -96,27 +122,32 @@ int main(void)
 		std::cout << "Volumen: " << GetVolume(pyramids[pyramid]) << std::endl << std::endl;
 	}
 
+	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+	InitWindow(screenWidth, screenHeight, "TP02");
+
 	while (!WindowShouldClose())
 	{
+		deltaTime = GetFrameTime();
+
 		//Camera movement
 		if (IsKeyDown(KEY_UP))
 		{
-			camera.position = Vector3RotateByAxisAngle(camera.position, { -baseX.x, baseX.y, baseX.z }, rotationAngle);
+			camera.position = Vector3RotateByAxisAngle(camera.position, { -baseX.x, baseX.y, baseX.z }, rotationAngle * deltaTime);
 		}
 
 		if (IsKeyDown(KEY_DOWN))
 		{
-			camera.position = Vector3RotateByAxisAngle(camera.position, { baseX.x, baseX.y, baseX.z }, rotationAngle);
+			camera.position = Vector3RotateByAxisAngle(camera.position, { baseX.x, baseX.y, baseX.z }, rotationAngle * deltaTime);
 		}
 
 		if (IsKeyDown(KEY_LEFT))
 		{
-			camera.position = Vector3RotateByAxisAngle(camera.position, { baseY.x, baseY.y, baseY.z }, rotationAngle);
+			camera.position = Vector3RotateByAxisAngle(camera.position, { baseY.x, baseY.y, baseY.z }, rotationAngle * deltaTime);
 		}
 
 		if (IsKeyDown(KEY_RIGHT))
 		{
-			camera.position = Vector3RotateByAxisAngle(camera.position, { baseY.x, -baseY.y, baseY.z }, rotationAngle);
+			camera.position = Vector3RotateByAxisAngle(camera.position, { baseY.x, -baseY.y, baseY.z }, rotationAngle * deltaTime);
 		}
 
 		GetNormalized(baseX);

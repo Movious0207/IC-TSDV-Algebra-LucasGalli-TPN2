@@ -139,6 +139,7 @@ std::vector <Pyramid> CreatePyramid(Vector3 origin, Vector3 a, Vector3 b, Vector
 
 				//Toma como punto de inicio la posicion de la primera esquina del penultimo piso de la ultima piramide, (la esq de arriba)
 				floor.edges[0] = pyramids[curPyramid - 1].floors[pyramids[curPyramid - 1].floors.size() - 2].edges[4];
+				
 				//le suma c
 				floor.edges[0] = GetVectorsSum(floor.edges[0], c);
 

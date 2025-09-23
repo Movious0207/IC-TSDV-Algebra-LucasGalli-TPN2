@@ -7,7 +7,7 @@
 
 struct Floor
 {
-	Vector3 edges[8] = {};
+	Vector3 edges[8] = {0,0,0};
 };
 
 struct Pyramid
