@@ -1,2 +1,1 @@
-Agustín Ezequiel Laure
-Borja Lia Deichler
+Lucas Galli
